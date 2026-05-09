@@ -1,0 +1,4 @@
+# https://www.robotstxt.org/robotstxt.html
+# Prem Collections - Premium Fashion Store
+User-agent: *
+Allow: /

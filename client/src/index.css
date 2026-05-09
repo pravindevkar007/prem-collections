@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+@layer components {
+  /* Primary button - vibrant indigo with white text */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold shadow-md transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #ffffff;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #818cf8, #6366f1);
+  }
+
+  /* Secondary button - light bg with dark text */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    background: #f1f5f9;
+    color: #1e293b;
+  }
+  .btn-secondary:hover {
+    background: #e2e8f0;
+  }
+
+  /* Outline button - visible border with indigo hover */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border-2 px-5 py-2.5 text-sm font-semibold shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    border-color: #cbd5e1;
+    color: #334155;
+    background: #ffffff;
+  }
+  .btn-outline:hover {
+    border-color: #6366f1;
+    color: #4f46e5;
+    background: #eef2ff;
+  }
+
+  /* Ghost button - transparent with visible hover */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    color: #475569;
+  }
+  .btn-ghost:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  /* Destructive button - red with white text */
+  .btn-destructive {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold shadow-md transition-all duration-200 hover:shadow-lg;
+    background: #ef4444;
+    color: #ffffff;
+  }
+  .btn-destructive:hover {
+    background: #dc2626;
+  }
+
+  /* Card */
+  .card {
+    @apply rounded-2xl border bg-white shadow-sm transition-all duration-300;
+    border-color: #e2e8f0;
+    color: #0f172a;
+  }
+  .card:hover {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Input - clear border, visible focus ring */
+  .input {
+    @apply flex h-10 w-full rounded-lg border px-4 py-2 text-sm shadow-sm transition-all duration-200;
+    border-color: #cbd5e1;
+    background: #ffffff;
+    color: #0f172a;
+  }
+  .input::placeholder {
+    color: #94a3b8;
+  }
+  .input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  /* Badge - visible text */
+  .badge {
+    @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold transition-colors;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+html { scroll-behavior: smooth; }
+
+::selection {
+  background: #6366f1;
+  color: white;
+}
