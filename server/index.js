@@ -8,7 +8,10 @@ const app = express();
 
 connectDB();
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://your-netlify-site.netlify.app'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Serve uploaded images statically
