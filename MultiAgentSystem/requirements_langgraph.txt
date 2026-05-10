@@ -1,0 +1,13 @@
+# LangGraph Multi-Agent System Requirements
+
+# Core dependencies
+requests==2.31.0
+python-dotenv==1.0.0
+
+# LangGraph and LangChain (compatible versions)
+langgraph>=0.0.40
+langchain-core>=0.2.0
+langchain>=0.2.0
+
+# Optional: For visualization and debugging
+langsmith>=0.1.0

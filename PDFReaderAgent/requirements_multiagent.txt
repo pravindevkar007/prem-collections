@@ -1,0 +1,17 @@
+# Multi-Agent System Requirements
+
+# Core dependencies
+requests==2.31.0
+python-dotenv==1.0.0
+
+# For Phase 3 (Real-time communication)
+flask==2.3.3
+flask-socketio==5.3.6
+
+# For Phase 4 (Advanced features)
+redis==5.0.1
+sqlalchemy==2.0.23
+
+# Optional: For better development experience
+colorama==0.4.6  # Colored terminal output
+rich==13.7.0     # Rich text and beautiful formatting

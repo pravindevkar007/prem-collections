@@ -1,0 +1,18 @@
+{
+  "name": "pdf-reader-agent",
+  "version": "1.0.0",
+  "description": "AI-powered PDF reader using NVIDIA API",
+  "main": "pdf_agent.js",
+  "scripts": {
+    "start": "node pdf_agent.js",
+    "test": "node test_agent.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "pdf-parse": "^1.1.1",
+    "dotenv": "^16.3.1"
+  },
+  "keywords": ["pdf", "ai", "nvidia", "reader", "agent"],
+  "author": "Your Name",
+  "license": "MIT"
+}
