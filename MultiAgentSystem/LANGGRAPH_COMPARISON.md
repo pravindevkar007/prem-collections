@@ -26,19 +26,20 @@ class AgentState:
 
 #### LangGraph System:
 ```python
-class TravelState(TypedDict):
-    messages: Annotated[list, add_messages]  # Auto-accumulates
-    collected_data: dict
-    current_step: str
-    missing_fields: list
-    needs_input: bool
+class SimpleState(TypedDict):
+    step: str
+    name: str
+    destination: str
+    purpose: str
+    message: str
+    complete: bool
 ```
 
 **LangGraph Advantages:**
 - ✅ **Type Safety** - TypedDict provides better type checking
-- ✅ **Message Accumulation** - Automatic message history
-- ✅ **Annotations** - Special behaviors like `add_messages`
-- ✅ **Persistence** - Built-in state saving/loading
+- ✅ **Framework Structure** - Standardized state format
+- ✅ **Simple Fields** - Clear, focused state management
+- ✅ **Graph Integration** - Works seamlessly with StateGraph
 
 ### **2. Agent Definition**
 
@@ -52,9 +53,19 @@ class InfoCollectorAgent(BaseAgent):
 
 #### LangGraph System:
 ```python
-def info_collector_node(state: TravelState) -> TravelState:
-    # Node function
-    return state_updates
+def collect_name_node(state: SimpleState) -> SimpleState:
+    if not state.get("name"):
+        return {
+            **state,
+            "step": "waiting_name",
+            "message": "Hi! I'm your travel assistant. What's your name?"
+        }
+    else:
+        return {
+            **state,
+            "step": "collect_destination",
+            "message": f"Nice to meet you, {state['name']}! Where are you planning to travel?"
+        }
 ```
 
 **LangGraph Advantages:**
@@ -77,21 +88,13 @@ class SimpleWorkflow:
 
 #### LangGraph System:
 ```python
-def route_after_validation(state: TravelState) -> Literal["collect_info", "process_request"]:
-    user_input = state.get("user_input", "").lower()
-    if "yes" in user_input:
-        return "process_request"
-    return "collect_info"
+def route_from_name(state: SimpleState) -> Literal["collect_destination", "collect_name"]:
+    if state.get("name"):
+        return "collect_destination"
+    return "collect_name"
 
 # Graph definition
-workflow.add_conditional_edges(
-    "validate_info", 
-    route_after_validation,
-    {
-        "collect_info": "collect_info",
-        "process_request": "process_request"
-    }
-)
+workflow.add_conditional_edges("collect_name", route_from_name)
 ```
 
 **LangGraph Advantages:**
@@ -113,18 +116,20 @@ while state.current_step != AgentStep.COMPLETE:
 
 #### LangGraph System:
 ```python
-for output in app.stream(initial_state, thread_config):
-    # Framework handles execution
-    if node_output.get("needs_input"):
-        user_input = input("You: ")
-        app.update_state(thread_config, {"user_input": user_input})
+# Manual step-by-step execution (current implementation)
+while not state.get("complete", False):
+    if state["step"] == "collect_name":
+        if not state.get("name"):
+            user_input = input("You: ").strip()
+            state["name"] = user_input
+            state["step"] = "collect_destination"
 ```
 
 **LangGraph Advantages:**
-- ✅ **Streaming Execution** - Real-time progress updates
-- ✅ **State Persistence** - Automatic checkpointing
-- ✅ **Error Recovery** - Built-in retry mechanisms
-- ✅ **Concurrent Execution** - Can run agents in parallel
+- ✅ **Framework Structure** - Uses LangGraph's StateGraph
+- ✅ **Manual Control** - Step-by-step execution prevents infinite loops
+- ✅ **Type Safety** - TypedDict for state management
+- ✅ **Rate Limiting** - Built-in API rate limiting
 
 ## 🚀 Feature Comparison
 
@@ -132,13 +137,13 @@ for output in app.stream(initial_state, thread_config):
 |---------|---------------|------------------|
 | **Learning Curve** | Easy | Moderate |
 | **Dependencies** | 2 packages | 5+ packages |
-| **State Management** | Manual | Automatic |
-| **Error Handling** | Basic | Advanced |
-| **Persistence** | None | Built-in |
-| **Visualization** | None | Available |
-| **Debugging** | Print statements | LangSmith integration |
-| **Scalability** | Limited | High |
-| **Production Ready** | No | Yes |
+| **State Management** | Manual | TypedDict-based |
+| **Error Handling** | Basic | Rate limiting + fallbacks |
+| **Persistence** | None | None (manual implementation) |
+| **Visualization** | None | Potential (framework support) |
+| **Debugging** | Print statements | Print statements + framework |
+| **Scalability** | Limited | Moderate |
+| **Production Ready** | No | Partially |
 
 ## 🎓 When to Use Each
 
@@ -190,15 +195,17 @@ simple_multi_agent.py
 ### **LangGraph System Structure:**
 ```
 langgraph_multi_agent.py
-├── TravelState (TypedDict)
-├── NvidiaLLM (class)
-├── info_collector_node (function)
-├── validation_node (function)
-├── processor_node (function)
-├── route_after_collection (function)
-├── route_after_validation (function)
-├── create_travel_workflow (function)
-└── run_langgraph_workflow (function)
+├── SimpleState (TypedDict)
+├── SimpleNvidiaAPI (class)
+├── start_node (function)
+├── collect_name_node (function)
+├── collect_destination_node (function)
+├── collect_purpose_node (function)
+├── validate_node (function)
+├── process_node (function)
+├── route_from_name (function)
+├── create_simple_workflow (function)
+└── run_simple_langgraph (function)
 ```
 
 ## 🎯 Learning Path Recommendation

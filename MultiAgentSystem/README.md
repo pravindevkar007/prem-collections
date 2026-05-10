@@ -13,6 +13,11 @@ pip install -r requirements.txt
 
 ### 2. Run Your First Multi-Agent System
 ```bash
+python langgraph_multi_agent.py
+```
+
+### 3. Alternative: Run Simple Multi-Agent System
+```bash
 python simple_multi_agent.py
 ```
 
@@ -23,9 +28,11 @@ Read `LEARNING_GUIDE.md` for detailed explanations and next steps.
 
 ```
 MultiAgentSystem/
-├── simple_multi_agent.py    # Main multi-agent system
+├── langgraph_multi_agent.py # Main LangGraph implementation (recommended)
+├── simple_multi_agent.py    # Alternative dataclass-based system
 ├── LEARNING_GUIDE.md        # Comprehensive learning guide
-├── requirements.txt         # Python dependencies
+├── requirements.txt         # Basic dependencies
+├── requirements_langgraph.txt # LangGraph dependencies
 ├── .env                     # NVIDIA API key
 └── README.md               # This file
 ```
