@@ -6,7 +6,7 @@ import json
 
 load_dotenv()
 
-class MultiQuestionDayAgent:
+class SimpleMultiQuestionDayAgent:
     def __init__(self):
         """Initialize the agent with NVIDIA AI"""
         self.api_key = os.getenv('NVIDIA_API_KEY')
@@ -41,10 +41,6 @@ class MultiQuestionDayAgent:
                 "tomorrow", "next day", "what about tomorrow",
                 "tomorrow's events", "preview tomorrow"
             ],
-            "custom_date": [
-                "specific date", "another date", "different day",
-                "date in history", "particular day"
-            ],
             "general": [
                 "tell me about today", "how was today", "today's significance",
                 "what's special about today", "daily briefing"
@@ -75,50 +71,26 @@ class MultiQuestionDayAgent:
                 'date': date.strftime("%B %d, %Y"),
                 'day_name': date.strftime("%A")
             }
-        except:
-            # Fallback data
+        except Exception as e:
+            print(f"API Error: {e}")
             return self._get_fallback_data(date)
     
     def _get_fallback_data(self, date):
         """Provide fallback data when API fails"""
-        fallback_data = {
-            'events': [],
-            'births': [],
-            'deaths': [],
+        return {
+            'events': [
+                {'year': 1969, 'text': 'Apollo 11 moon landing (example)'},
+                {'year': 1989, 'text': 'Berlin Wall falls (example)'}
+            ],
+            'births': [
+                {'year': 1955, 'text': 'Bill Gates, Microsoft founder (example)'}
+            ],
+            'deaths': [
+                {'year': 1963, 'text': 'John F. Kennedy (example)'}
+            ],
             'date': date.strftime("%B %d, %Y"),
             'day_name': date.strftime("%A")
         }
-        
-        # Add some sample data for common dates
-        month_day = f"{date.month:02d}-{date.day:02d}"
-        
-        sample_data = {
-            "05-10": {
-                'events': [
-                    {'year': 1869, 'text': 'First Transcontinental Railroad completed'},
-                    {'year': 1940, 'text': 'Winston Churchill becomes UK Prime Minister'},
-                    {'year': 1994, 'text': 'Nelson Mandela inaugurated as South African President'}
-                ],
-                'births': [
-                    {'year': 1899, 'text': 'Fred Astaire, American dancer and actor'},
-                    {'year': 1960, 'text': 'Bono, Irish singer (U2)'}
-                ]
-            },
-            "12-25": {
-                'events': [
-                    {'year': 800, 'text': 'Charlemagne crowned Holy Roman Emperor'},
-                    {'year': 1066, 'text': 'William the Conqueror crowned King of England'}
-                ],
-                'births': [
-                    {'year': 1642, 'text': 'Isaac Newton, English physicist and mathematician'}
-                ]
-            }
-        }
-        
-        if month_day in sample_data:
-            fallback_data.update(sample_data[month_day])
-        
-        return fallback_data
     
     def classify_question(self, question):
         """Determine what type of question the user is asking"""
@@ -128,7 +100,7 @@ class MultiQuestionDayAgent:
             if any(keyword in question_lower for keyword in keywords):
                 return category
         
-        return "general"  # Default category
+        return "general"
     
     def call_nvidia_api(self, prompt):
         """Call NVIDIA API directly"""
@@ -229,7 +201,7 @@ Response:"""
     def show_help(self):
         """Show what questions the agent can answer"""
         help_text = """
-🤖 MULTI-QUESTION DAY AGENT - What I Can Answer:
+🤖 SIMPLE MULTI-QUESTION DAY AGENT - What I Can Answer:
 
 📅 DATE & TIME:
 • "What's today's date?"
@@ -251,11 +223,6 @@ Response:"""
 • "Famous deaths today"
 • "Notable people who passed away"
 
-🎉 HOLIDAYS & SPECIAL DAYS:
-• "What holidays are today?"
-• "Special observances"
-• "Celebrations today"
-
 🔮 TOMORROW'S INFO:
 • "What about tomorrow?"
 • "Tomorrow's historical events"
@@ -267,17 +234,12 @@ Response:"""
 • "Today's significance"
 • "Daily briefing"
 
-💡 CUSTOM DATES:
-• "What happened on December 25th?"
-• "Events on January 1st"
-• "Tell me about [specific date]"
-
 Type 'help' anytime to see this menu again!
         """
         return help_text
 
 def main():
-    print("🤖 MULTI-QUESTION DAY AGENT")
+    print("🤖 SIMPLE MULTI-QUESTION DAY AGENT")
     print("=" * 50)
     
     # Check API key
@@ -287,7 +249,7 @@ def main():
     
     # Initialize agent
     try:
-        agent = MultiQuestionDayAgent()
+        agent = SimpleMultiQuestionDayAgent()
         print("✅ Agent ready! Type 'help' to see what I can answer.")
     except Exception as e:
         print(f"❌ ERROR: {e}")
